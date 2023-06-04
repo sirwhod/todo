@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import styles from './Task.module.css'
 import { useState } from "react";
+import { ModalDelete } from "./modalDelete";
 
 interface ITask {
   id: string,
@@ -23,6 +24,11 @@ export function Task({task, onDeleteTask, onUpdateTask }: ITaskProps) {
   console.log(task.isComplete)
   
   const [checkButton, setCheckButton] = useState(styles.taskContainer)
+  const [openModal, setOpenModal] = useState(false)
+
+  function handleOpenModal() {
+    setOpenModal(!openModal)
+  }
 
   function handleCheckButton() {
     if (checkButton === styles.taskContainer) {
@@ -54,9 +60,10 @@ export function Task({task, onDeleteTask, onUpdateTask }: ITaskProps) {
       <p>{title}</p>
       <button 
         className={styles.deleteButton}
-        onClick={handleDeleteTask}
+        onClick={handleOpenModal}
       >
         <FontAwesomeIcon icon={faTrash} /></button>
+        <ModalDelete isOpen={openModal} deleteTask={handleDeleteTask} closeModal={handleOpenModal}/>
     </div>
   )
 }
