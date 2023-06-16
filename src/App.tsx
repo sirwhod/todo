@@ -3,13 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import { NullTasks } from './components/NullTasks'
 import { Task } from './components/Task'
-import { ChangeEvent, FormEvent, InvalidEvent, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid';
+import { FormEvent, SetStateAction, useState } from 'react'
 
 function App() {
 
   interface ITasks {
-    id: string,
+    id: number,
     title: string,
     isComplete: boolean,
   }
@@ -40,7 +39,7 @@ function App() {
     event.preventDefault()
 
     const newTask = {
-      id: uuidv4(),
+      id: new Date().getMilliseconds(),
       title: inputTasks,
       isComplete: false
     }
@@ -50,16 +49,12 @@ function App() {
     setInputTasks('')
   }
 
-  function handleNewTaskChange(event: ChangeEvent<HTMLTextAreaElement>) {
+  function handleNewTaskChange(event: { target: { setCustomValidity: (arg0: string) => void; value: SetStateAction<string> } }) {
     event.target.setCustomValidity('')
     setInputTasks(event.target.value)
   }
 
-  function handleNewTasksInvalid(event: InvalidEvent<HTMLTextAreaElement>) {
-    event.target.setCustomValidity('Esse campo é obrigatório!')
-  }
-
-  function deleteTask(taskToDelete: string) {
+  function deleteTask(taskToDelete: number) {
     const TaskWithouDeletedOne = tasks.filter(task => {
       return task.id !== taskToDelete
     })
@@ -83,7 +78,6 @@ function App() {
             name="newTask"
             onChange={handleNewTaskChange}
             placeholder='Adicione uma nova tarefa'
-            onInvalid={handleNewTasksInvalid}
             value={inputTasks}
             required
           />

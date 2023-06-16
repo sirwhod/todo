@@ -3,17 +3,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import styles from './Task.module.css'
 import { useState } from "react";
-import { ModalDelete } from "./modalDelete";
-
+import { ModalDelete } from "./ModalDelete";
 interface ITask {
-  id: string,
+  id: number,
   title: string,
   isComplete: boolean
 }
 
 interface ITaskProps {
   task: ITask,
-  onDeleteTask: (comment: string) => void,
+  onDeleteTask: (comment: number) => void,
   onUpdateTask: (task: ITask) => void
 }
 
